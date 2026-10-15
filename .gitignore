@@ -1,0 +1,29 @@
+﻿# Credenciais e configuracoes locais
+.env
+.env.*
+!.env.example
+
+# Ambiente virtual Python
+.venv/
+venv/
+
+# Cache e arquivos compilados
+__pycache__/
+*.pyc
+*.pyo
+
+# Arquivos gerados durante a execucao
+saidas/*
+!saidas/.gitkeep
+
+# Arquivos temporarios e backups
+*_backup.py
+*.log
+
+# Arquivos do editor
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
