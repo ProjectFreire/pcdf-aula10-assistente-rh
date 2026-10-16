@@ -63,6 +63,8 @@ No teste integral original, o C8 recebeu o mesmo protocolo do C1 (`ae788d33`), m
 
 Os despachos de C2 e C11 também conservaram a informação de que a aprovação definitiva dependia da chefia, embora a autorização já tivesse ocorrido. Essa redação pode ser aperfeiçoada para refletir o estado final do processo.
 
+Em teste isolado com Ollama, o especialista Escala consultou corretamente a ferramenta MCP, mas concluiu equivocadamente que nao havia conflito entre 12 e 26/07/2027. A ferramenta retornou o afastamento da matricula 1006 entre 05 e 19/07/2027. A verificacao deterministica da regra N5 identificou o conflito corretamente. O estado persistido do caso C6 confirmou o indeferimento e o registro da decisao.
+
 ## O grafo
 ```mermaid
 flowchart TD
@@ -159,7 +161,7 @@ Utilizaria um banco de dados transacional, autenticação integrada à identidad
 | Arquivo / trecho | Exemplo das aulas em que me baseei | O que precisei adaptar |
 |---|---|---|
 | `etapa01_agente.py` | Aula 1 — primeiro agente; aula 4 — function tool | Consulta ao cadastro de servidores sem expor salário. |
-| `etapa02_extracao.py` | Aula 2 — saída estruturada | Modelo de dados para férias, abono e diária. |
+| `etapa02_extracao.py` | Aula 2 — saída estruturada | Modelo Pydantic para extracao estruturada de pedidos, com validacao complementar que impede inventar dias quando o usuario informa apenas mes e ano. |
 | `etapa03_guardrails.py` | Aula 2 — guardrail; aula 4 — expressões regulares | Bloqueio de CPF, CID e pedidos fora do escopo. |
 | `etapa04_ferramentas.py` | Aula 3 — retry, parada e protocolo; aula 6 — BrasilAPI | Resiliência das consultas, cálculo de datas e idempotência. |
 | `etapa05_mcp_rh.py` | Aula 5 — MCP Server; aula 6 — MCP consultando dados | Ferramentas internas do RH e validação de registros. |
@@ -174,7 +176,7 @@ Utilizaria um banco de dados transacional, autenticação integrada à identidad
 ## Conclusão
 O projeto implementa um assistente de gestão de pessoas utilizando agentes especializados, ferramentas MCP, regras objetivas em Python e um grafo de execução com persistência.
 
-Foram concluídas as etapas de implementação até a Etapa 10, com testes automáticos aprovados. Na Etapa 11, foram executados os 12 casos e realizadas as aprovações humanas previstas para C2 e C11.
+Foram concluidas as 12 etapas previstas na atividade, com aprovacao integral no verificador `conferir.py`. As verificacoes foram complementadas por execucoes reais com Ollama, consultas MCP e inspecao dos estados persistidos.
 
 O sistema demonstrou capacidade de bloquear solicitações inadequadas, solicitar informações ausentes, identificar violações normativas e encaminhar decisões à chefia responsável.
 
