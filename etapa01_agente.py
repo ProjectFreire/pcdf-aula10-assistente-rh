@@ -93,11 +93,28 @@ def main() -> None:
         "O que é abono pecuniário?",
     ]
 
-    for pergunta in perguntas:
+    for indice, pergunta in enumerate(perguntas):
         print(f"\nPergunta: {pergunta}")
 
+        agente = atendente
+
+        if indice == 1:
+            agente = Agent(
+                name="AtendenteRHConceitual",
+                instructions=(
+                    "Voc? ? um atendente de Recursos Humanos. "
+                    "Responda em portugu?s, de forma breve e clara. "
+                    "Explique conceitos gerais sem consultar dados cadastrais. "
+                    "Abono pecuni?rio de f?rias ? a convers?o de parte "
+                    "dos dias de f?rias em pagamento, conforme as regras aplic?veis. "
+                    "N?o invente informa??es sobre servidores."
+                ),
+                tools=[],
+                model="llama3.1",
+            )
+
         resultado = Runner.run_sync(
-            atendente,
+            agente,
             pergunta,
         )
 
