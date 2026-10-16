@@ -151,6 +151,9 @@ INSTRUCOES_EXTRATOR = (
     "Para viagens internacionais, tipo_destino deve ser 'exterior'. "
     "Para viagens dentro do Brasil, classifique o destino como capital ou interior. "
     "Não inclua dados sensíveis de saúde na justificativa."
+    "When only a month and year are given without exact days, " 
+    "set data_inicio and data_fim to null. " 
+    "Never assume the first or last day of the month. " "For missing optional values, return the actual JSON null value, not the text string null or the quoted string null. " "For justificativa, use an empty string when no specific reason is given. "
 )
 
 
@@ -162,7 +165,33 @@ def extrair(texto: str) -> Pedido:
         texto,
     )
 
-    return resultado.final_output
+    pedido = resultado.final_output
+
+    import re
+    meses = (
+        "janeiro|fevereiro|mar?o|abril|maio|junho|julho|"
+        "agosto|setembro|outubro|novembro|dezembro"
+    )
+
+    texto_normalizado = texto.lower()
+
+    mes_ano = re.search(
+        rf"\b(?:{meses})\s+de\s+\d{{4}}\b",
+        texto_normalizado,
+    )
+
+    dia_explicito = re.search(
+        r"\b\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b"
+        r"|\b\d{1,2}\s+de\s+",
+        texto_normalizado,
+    )
+
+    if mes_ano and not dia_explicito:
+        pedido = pedido.model_copy(
+            update={"data_inicio": None, "data_fim": None}
+        )
+
+    return pedido
 
 
 # ------------------------------------------------------------------ 🆕 A: votação (OPCIONAL, bônus)
